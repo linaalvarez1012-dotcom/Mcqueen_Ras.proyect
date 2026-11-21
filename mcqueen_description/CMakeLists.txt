@@ -4,7 +4,7 @@ project(mcqueen_description)
 find_package(ament_cmake)
 
 install(
-    DIRECTORY config launch rviz urdf meshes
+    DIRECTORY config launch urdf rviz meshes sdformat
     DESTINATION share/${PROJECT_NAME}/
 )
 

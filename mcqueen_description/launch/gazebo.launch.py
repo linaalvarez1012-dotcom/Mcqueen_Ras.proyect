@@ -24,20 +24,32 @@ def generate_launch_description():
         output='screen'
     )
 
+    world_file = PathJoinSubstitution([
+        pkg, 'sdformat', 'world_1.sdf'
+    ])
+
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(PathJoinSubstitution([
-            FindPackageShare('ros_gz_sim'), 'launch', 'gz_sim.launch.py'
+            FindPackageShare('ros_gz_sim'),
+            'launch',
+            'gz_sim.launch.py'
         ])),
-        launch_arguments={'gz_args': '-r empty.sdf'}.items()
+        launch_arguments={
+            'gz_args': ['-r ', world_file]
+        }.items()
     )
+
 
     # Crea el robot dentro de Gazebo a partir de /robot_description
     spawn = Node(
         package='ros_gz_sim',
         executable='create',
         arguments=['-topic', 'robot_description',
-                    '-name', 'mcqueen',
-                    '-z', '0.05'],
+                    '-name', 'mcqueen', '-world',
+                    'world_1',             
+                    '-x', '0',
+                    '-y', '-2',
+                    '-z', '0.2'],
         output='screen'
     )
 
