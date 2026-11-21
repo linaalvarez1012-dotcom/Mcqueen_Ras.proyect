@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot name="mcqueen" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+  <xacro:macro name="wheel_track" params="name track_length track_width track_height mass ">
+
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <box size="${track_length} ${track_width} ${track_height}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+
+      <collision>
+        <geometry>
+          <box size="${track_length} ${track_width} ${track_height}"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <mass value="${mass}"/>
+        <inertia ixx="${mass/12 * (track_width**2 + track_height**2)}"
+                 iyy="${mass/12 * (track_length**2 + track_height**2)}"
+                 izz="${mass/12 * (track_length**2 + track_width**2)}"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+  </xacro:macro>
+
+
+
+</robot>

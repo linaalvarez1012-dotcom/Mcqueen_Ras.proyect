@@ -1,72 +1,58 @@
 <?xml version="1.0"?>
 <robot name="mcqueen" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <!-- base_link -->
+  <!-- Includes -->
+  <xacro:include filename="$(find mcqueen_description)/urdf/materials.xacro"/>
+  <xacro:include filename="$(find mcqueen_description)/urdf/base_link.xacro"/>
+  <xacro:include filename="$(find mcqueen_description)/urdf/wheel.xacro"/>
+  <xacro:include filename="$(find mcqueen_description)/urdf/caster_wheel.xacro"/>
+  <xacro:include filename="$(find mcqueen_description)/urdf/wheel_track.xacro"/>
+  <xacro:include filename="$(find mcqueen_description)/urdf/laser.xacro"/>
+  
+  <!-- base_link -->
   <xacro:property name="body_length" value="0.21"/>
   <xacro:property name="body_width"  value="0.16"/>
   <xacro:property name="body_height" value="0.04"/>
   <xacro:property name="body_z"      value="0.075"/>
+  <xacro:property name="body_mass"   value="0.60"/>
 
-    <!-- wheel -->
-  <xacro:property name="wheel_mass"         value="0.02"/>  
+  <!-- wheel -->
+  <xacro:property name="wheel_mass"   value="0.08"/>
   <xacro:property name="wheel_radius" value="0.07"/>
   <xacro:property name="wheel_width"  value="0.027"/>
   <xacro:property name="wheel_x"      value="-0.085"/>
   <xacro:property name="wheel_y"      value="0.11"/>
-  <xacro:property name="wheel_z"      value="0.04"/>
+  <xacro:property name="wheel_z"      value="${wheel_radius}"/>
 
+  <!-- caster_wheel -->
   <xacro:property name="caster_radius" value="0.03"/>
+  <xacro:property name="caster_mass"   value="0.02"/>
+  <xacro:property name="caster_x"      value="0.07"/>
+  <xacro:property name="caster_z"      value="${caster_radius}"/>
 
-  <material name="blue">
-    <color rgba="0 0 0.8 1"/>
-  </material>
-  <material name="white">
-    <color rgba="1 1 1 1"/>
-  </material>
-  <material name="purple">
-    <color rgba="0.5 0 0.5 1"/>
-  </material>
+  <!-- wheel_track -->
+  <xacro:property name="track_length" value="0.04"/>
+  <xacro:property name="track_width"  value="0.19"/>
+  <xacro:property name="track_height" value="0.002"/>
+  <xacro:property name="track_mass"   value="0.02"/>
+  <xacro:property name="track_z"      value="0.096"/>
 
-  <link name="base_link">
-    <visual>
-      <origin xyz="0 0 ${body_z}" rpy="0 0 0"/>
-      <geometry>
-        <box size="${body_length} ${body_width} ${body_height}"/>
-      </geometry>
-      <material name="blue"/>
-    </visual>
-  </link>
+  <!-- laser -->
+  <xacro:property name="laser_radius" value="0.04"/>
+  <xacro:property name="laser_length" value="0.04"/>
+  <xacro:property name="laser_mass"   value="0.17"/>
+  <xacro:property name="laser_x"      value="0.065"/>
+  <xacro:property name="laser_z"      value="0.115"/>
 
-  <xacro:wheel name="wheel_left"  radius="${wheel_radius}" width="${wheel_width}" "mass=${wheel_mass}"/>
-  <xacro:wheel name="wheel_right" radius="${wheel_radius}" width="${wheel_width}"/>
+  <!-- Links -->
+  <xacro:base_link name="base_link" body_length="${body_length}" body_width="${body_width}" body_height="${body_height}" body_z="${body_z}" body_mass="${body_mass}"/>
+  <xacro:wheel name="wheel_left"  radius="${wheel_radius}" width="${wheel_width}" mass="${wheel_mass}"/>
+  <xacro:wheel name="wheel_right" radius="${wheel_radius}" width="${wheel_width}" mass="${wheel_mass}"/>
+  <xacro:caster_wheel name="caster_wheel" radius="${caster_radius}" mass="${caster_mass}"/>
+  <xacro:wheel_track name="wheel_track" track_length="${track_length}" track_width="${track_width}" track_height="${track_height}" mass="${track_mass}"/>
+  <xacro:laser name="laser" laser_length="${laser_length}" laser_radius="${laser_radius}" mass="${laser_mass}"/>
 
-  <link name="caster_wheel">
-    <visual>
-      <geometry>
-        <sphere radius="${caster_radius}"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-  </link>
-
-  <link name="wheel_track">
-    <visual>
-      <geometry>
-        <box size="0.04 0.19 0.002"/>
-      </geometry>
-      <material name="white"/>
-    </visual>
-  </link>
-
-  <link name="laser">
-    <visual>
-      <geometry>
-        <cylinder length="0.04" radius="0.04"/>
-      </geometry>
-      <material name="purple"/>
-    </visual>
-  </link>
-
+  <!-- Joints -->
   <joint name="base_to_wheel_left" type="fixed">
     <parent link="base_link"/>
     <child link="wheel_left"/>
@@ -82,19 +68,19 @@
   <joint name="base_to_caster_wheel" type="fixed">
     <parent link="base_link"/>
     <child link="caster_wheel"/>
-    <origin xyz="0.07 0 0.025"/>
+    <origin xyz="${caster_x} 0 ${caster_z}"/>
   </joint>
 
   <joint name="base_to_wheel_track" type="fixed">
     <parent link="base_link"/>
     <child link="wheel_track"/>
-    <origin xyz="${wheel_x} 0 0.06"/>
+    <origin xyz="${wheel_x} 0 ${track_z}"/>
   </joint>
 
   <joint name="base_to_laser" type="fixed">
     <parent link="base_link"/>
     <child link="laser"/>
-    <origin xyz="0.065 0 0.12"/>
+    <origin xyz="${laser_x} 0 ${laser_z}"/>
   </joint>
 
 </robot>

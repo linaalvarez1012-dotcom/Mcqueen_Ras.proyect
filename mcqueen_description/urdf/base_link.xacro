@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot name="mcqueen" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+
+  <xacro:macro name="base_link" params="name body_length body_width body_height body_z body_mass">
+
+    <link name="${name}">
+      <visual>
+        <origin xyz="0 0 ${body_z}" rpy="0 0 0"/>
+        <geometry>
+          <box size="${body_length} ${body_width} ${body_height}"/>
+        </geometry>
+        <material name="blue"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 ${body_z}" rpy="0 0 0"/>
+        <geometry>
+          <box size="${body_length} ${body_width} ${body_height}"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0 0 ${body_z}" rpy="0 0 0"/>
+        <mass value="${body_mass}"/>
+        <inertia ixx="${body_mass/12 * (body_width**2 + body_height**2)}"
+                 iyy="${body_mass/12 * (body_length**2 + body_height**2)}"
+                 izz="${body_mass/12 * (body_length**2 + body_width**2)}"
+                  ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+  </xacro:macro>
+
+</robot>
