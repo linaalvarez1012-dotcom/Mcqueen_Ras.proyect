@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<robot name="mcqueen" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- base_link -->
+  <xacro:property name="body_length" value="0.21"/>
+  <xacro:property name="body_width"  value="0.16"/>
+  <xacro:property name="body_height" value="0.04"/>
+  <xacro:property name="body_z"      value="0.075"/>
+
+    <!-- wheel -->
+  <xacro:property name="wheel_mass"         value="0.02"/>  
+  <xacro:property name="wheel_radius" value="0.07"/>
+  <xacro:property name="wheel_width"  value="0.027"/>
+  <xacro:property name="wheel_x"      value="-0.085"/>
+  <xacro:property name="wheel_y"      value="0.11"/>
+  <xacro:property name="wheel_z"      value="0.04"/>
+
+  <xacro:property name="caster_radius" value="0.03"/>
+
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+  <material name="purple">
+    <color rgba="0.5 0 0.5 1"/>
+  </material>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 ${body_z}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${body_length} ${body_width} ${body_height}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+  <xacro:wheel name="wheel_left"  radius="${wheel_radius}" width="${wheel_width}" "mass=${wheel_mass}"/>
+  <xacro:wheel name="wheel_right" radius="${wheel_radius}" width="${wheel_width}"/>
+
+  <link name="caster_wheel">
+    <visual>
+      <geometry>
+        <sphere radius="${caster_radius}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+
+  <link name="wheel_track">
+    <visual>
+      <geometry>
+        <box size="0.04 0.19 0.002"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <link name="laser">
+    <visual>
+      <geometry>
+        <cylinder length="0.04" radius="0.04"/>
+      </geometry>
+      <material name="purple"/>
+    </visual>
+  </link>
+
+  <joint name="base_to_wheel_left" type="fixed">
+    <parent link="base_link"/>
+    <child link="wheel_left"/>
+    <origin xyz="${wheel_x} ${wheel_y} ${wheel_z}"/>
+  </joint>
+
+  <joint name="base_to_wheel_right" type="fixed">
+    <parent link="base_link"/>
+    <child link="wheel_right"/>
+    <origin xyz="${wheel_x} ${-wheel_y} ${wheel_z}"/>
+  </joint>
+
+  <joint name="base_to_caster_wheel" type="fixed">
+    <parent link="base_link"/>
+    <child link="caster_wheel"/>
+    <origin xyz="0.07 0 0.025"/>
+  </joint>
+
+  <joint name="base_to_wheel_track" type="fixed">
+    <parent link="base_link"/>
+    <child link="wheel_track"/>
+    <origin xyz="${wheel_x} 0 0.06"/>
+  </joint>
+
+  <joint name="base_to_laser" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser"/>
+    <origin xyz="0.065 0 0.12"/>
+  </joint>
+
+</robot>
