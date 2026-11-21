@@ -4,11 +4,11 @@
   <!-- Includes -->
   <xacro:include filename="$(find mcqueen_description)/urdf/materials.xacro"/>
   <xacro:include filename="$(find mcqueen_description)/urdf/base_link.xacro"/>
-  <xacro:include filename="$(find mcqueen_description)/urdf/wheel.xacro"/>
+  <xacro:include filename="$(find mcqueen_description)/urdf/rueda.xacro"/>
   <xacro:include filename="$(find mcqueen_description)/urdf/caster_wheel.xacro"/>
   <xacro:include filename="$(find mcqueen_description)/urdf/wheel_track.xacro"/>
   <xacro:include filename="$(find mcqueen_description)/urdf/laser.xacro"/>
-  
+
   <!-- base_link -->
   <xacro:property name="body_length" value="0.21"/>
   <xacro:property name="body_width"  value="0.16"/>

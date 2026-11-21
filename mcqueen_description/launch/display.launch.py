@@ -15,7 +15,7 @@ def generate_launch_description():
     # Ruta RELATIVA dentro del paquete
     model_arg = DeclareLaunchArgument(
         name='model',
-        default_value='urdf/mcqueen.urdf',
+        default_value='urdf/mcqueen.urdf.xacro',
         description='URDF path relative to the package share directory'
     )
 

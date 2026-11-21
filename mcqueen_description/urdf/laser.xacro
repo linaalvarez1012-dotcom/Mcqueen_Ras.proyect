@@ -1,10 +1,6 @@
 <?xml version="1.0"?>
 <robot name="mcqueen" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <material name="purple">
-    <color rgba="0.5 0 0.5 0.5"/>
-  </material>
-
   <xacro:macro name="laser" params="name laser_length laser_radius mass">
 
     <link name="${name}">

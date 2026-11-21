@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <robot name="mcqueen" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <material name="blue">
-    <color rgba="0 0 0.8 1"/>
-  </material>
-
-  <xacro:macro name="base_link" params="name body_length body_width body_height body_z body_mass">
-
+<xacro:macro name="base_link" params="name body_length body_width body_height body_z body_mass">
     <link name="${name}">
       <visual>
         <origin xyz="0 0 ${body_z}" rpy="0 0 0"/>
