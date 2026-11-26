@@ -16,15 +16,6 @@
     <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
     <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
 
-    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
-    <left_joint>p3dx_left_wheel_joint</left_joint>
-    <right_joint>p3dx_right_wheel_joint</right_joint>
-    <wheel_separation>0.316</wheel_separation>
-    <wheel_radius>0.09</wheel_radius>
-    <topic>cmd_vel</topic>            
-    <odom_topic>odom</odom_topic>     
-    </plugin>
-
     <scene>
       <ambient>1 1 1 1</ambient>
       <background>0.3 0.7 0.9 1</background>
