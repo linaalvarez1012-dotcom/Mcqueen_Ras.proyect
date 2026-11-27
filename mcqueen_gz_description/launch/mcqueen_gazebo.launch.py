@@ -8,20 +8,19 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    pkg = FindPackageShare('mcqueen_description')
+    pkg_gz = FindPackageShare('mcqueen_gz_description')
 
-    # Argumento: nombre del archivo del mundo (dentro de sdformat/)
     world_arg = DeclareLaunchArgument(
         'world',
         default_value='world_4.sdf',
-        description='Archivo .sdf de la carpeta sdformat/ que se va a cargar'
+        description='Archivo .sdf de la carpeta worlds/ que se va a cargar'
     )
 
     world_file = PathJoinSubstitution([
-        pkg, 'sdformat', LaunchConfiguration('world')
+        pkg_gz, 'worlds', LaunchConfiguration('world')
     ])
 
-    xacro_file = PathJoinSubstitution([pkg, 'urdf', 'mcqueen.urdf.xacro'])
+    xacro_file = PathJoinSubstitution([pkg_gz, 'urdf', 'mcqueen_gz.urdf.xacro'])
     robot_description = ParameterValue(
         Command(['xacro ', xacro_file]), value_type=str
     )
@@ -30,7 +29,7 @@ def generate_launch_description():
         package='robot_state_publisher',
         executable='robot_state_publisher',
         parameters=[{'robot_description': robot_description,
-                        'use_sim_time': True}],
+                    'use_sim_time': True}],
         output='screen'
     )
 
@@ -41,7 +40,6 @@ def generate_launch_description():
         launch_arguments={'gz_args': ['-r ', world_file]}.items()
     )
 
-    # Sin '-world': create detecta el mundo que esté cargado
     spawn = Node(
         package='ros_gz_sim',
         executable='create',
@@ -59,6 +57,7 @@ def generate_launch_description():
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
             '/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
+            '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model',
             '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
         ],
         output='screen'

@@ -1,6 +1,66 @@
 <?xml version="1.0"?>
 <robot name="mcqueen" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- Robot base: links y joints -->
   <xacro:include filename="$(find mcqueen_description)/urdf/mcqueen.urdf.xacro"/>
 
-</robot> 
+  <!-- Tracción diferencial -->
+  <gazebo>
+    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+      <left_joint>base_to_wheel_left</left_joint>
+      <right_joint>base_to_wheel_right</right_joint>
+      <wheel_separation>0.22</wheel_separation>
+      <wheel_radius>0.07</wheel_radius>
+      <topic>cmd_vel</topic>
+      <odom_topic>odom</odom_topic>
+      <tf_topic>/tf</tf_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_link</child_frame_id>
+      <odom_publish_frequency>30</odom_publish_frequency>
+    </plugin>
+  </gazebo>
+
+  <!-- Estado de las ruedas (para que giren en TF y RViz) -->
+  <gazebo>
+    <plugin filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+      <topic>joint_states</topic>
+      <joint_name>base_to_wheel_left</joint_name>
+      <joint_name>base_to_wheel_right</joint_name>
+    </plugin>
+  </gazebo>
+
+  <!-- Rueda loca sin fricción -->
+  <gazebo reference="caster_wheel">
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+  </gazebo>
+
+  <!-- Lidar 360° -->
+  <gazebo reference="laser">
+    <sensor name="gpu_lidar" type="gpu_lidar">
+      <pose>0 0 0 0 0 0</pose>
+      <topic>scan</topic>
+      <gz_frame_id>laser</gz_frame_id>
+      <update_rate>10</update_rate>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.08</min>
+          <max>10.0</max>
+          <resolution>0.01</resolution>
+        </range>
+      </lidar>
+    </sensor>
+  </gazebo>
+
+</robot>

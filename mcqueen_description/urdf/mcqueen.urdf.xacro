@@ -84,24 +84,5 @@
     <child link="laser"/>
     <origin xyz="${laser_x} 0 ${laser_z}"/>
   </joint>
-
-  <gazebo>
-    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
-      <left_joint>base_to_wheel_left</left_joint>
-      <right_joint>base_to_wheel_right</right_joint>
-      <wheel_separation>0.22</wheel_separation>
-      <wheel_radius>0.07</wheel_radius>
-      <topic>cmd_vel</topic>
-      <odom_topic>odom</odom_topic>
-      <tf_topic>/tf</tf_topic>
-      <frame_id>odom</frame_id>
-      <child_frame_id>base_link</child_frame_id>
-    </plugin>
-  </gazebo>
-
-  <gazebo reference="caster_wheel">
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-  </gazebo>
   
 </robot>
