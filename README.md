@@ -136,7 +136,8 @@ This requires the bridge and Gazebo differential-drive plugin to agree on the co
 ---
 
 ## Video 
-
+[Maping with Lidar 2D in Rviz] 
+https://youtu.be/9F5kYGU74Ac?feature=shared
 
 --- 
 
