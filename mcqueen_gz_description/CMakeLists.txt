@@ -4,7 +4,7 @@ project(mcqueen_gz_description)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY launch urdf worlds
+  DIRECTORY launch urdf worlds config
   DESTINATION share/${PROJECT_NAME}/
 )
 

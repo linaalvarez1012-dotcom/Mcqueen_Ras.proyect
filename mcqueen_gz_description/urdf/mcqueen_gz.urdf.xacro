@@ -7,24 +7,40 @@
   <!-- Tracción diferencial -->
   <gazebo>
     <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+
       <left_joint>base_to_wheel_left</left_joint>
       <right_joint>base_to_wheel_right</right_joint>
       <wheel_separation>0.22</wheel_separation>
       <wheel_radius>0.07</wheel_radius>
-      <topic>cmd_vel</topic>
-      <odom_topic>odom</odom_topic>
-      <tf_topic>/tf</tf_topic>
-      <frame_id>odom</frame_id>
+      <topic>/cmd_vel</topic>
+
+      <odom_topic>/unused/diff_drive_odometry</odom_topic>
+      <tf_topic>/unused/diff_drive_tf</tf_topic>
+      <frame_id>odom_diff_drive</frame_id>
       <child_frame_id>base_link</child_frame_id>
-      <odom_publish_frequency>30</odom_publish_frequency>
+      <odom_publish_frequency>1</odom_publish_frequency>
+
     </plugin>
+  </gazebo>
+
+  <gazebo>
+
+    <plugin filename="gz-sim-odometry-publisher-system"
+            name="gz::sim::systems::OdometryPublisher">
+        <odom_publish_frequency>20</odom_publish_frequency>
+        <robot_base_frame>base_link</robot_base_frame>
+        <odom_frame>odom</odom_frame>
+        <odom_topic>/odom</odom_topic>
+        <tf_topic>/model/mcqueen/pose</tf_topic>
+    </plugin>
+
   </gazebo>
 
   <!-- Estado de las ruedas (para que giren en TF y RViz) -->
   <gazebo>
     <plugin filename="gz-sim-joint-state-publisher-system"
             name="gz::sim::systems::JointStatePublisher">
-      <topic>joint_states</topic>
+      <topic>/joint_states</topic>
       <joint_name>base_to_wheel_left</joint_name>
       <joint_name>base_to_wheel_right</joint_name>
     </plugin>
@@ -40,7 +56,7 @@
   <gazebo reference="laser">
     <sensor name="gpu_lidar" type="gpu_lidar">
       <pose>0 0 0 0 0 0</pose>
-      <topic>scan</topic>
+      <topic>/scan</topic>
       <gz_frame_id>laser</gz_frame_id>
       <update_rate>10</update_rate>
       <always_on>true</always_on>
